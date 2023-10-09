@@ -1,9 +1,9 @@
 # File must be named openshift.yaml or openshift.yml
 
 # Authenticate with token, and return all pods and services for all namespaces
-plugin: community.okd.openshift
+plugin: redhat.openshift.openshift
 connections:
-  - host: "{{ host }}"
-    api_key: "{{ bearer_token }}"
+  - host: "{{ lookup('ansible.builtin.env', 'OCP_HOST' }}"
+    api_key: "{{ lookup('ansible.builtin.env', 'OCP_API_TOKEN' }}"
     verify_ssl: false
 
