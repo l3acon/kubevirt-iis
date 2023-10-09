@@ -3,7 +3,7 @@
 # Authenticate with token, and return all pods and services for all namespaces
 plugin: redhat.openshift.openshift
 connections:
-  - host: "{{ lookup('ansible.builtin.env', 'OCP_HOST' }}"
-    api_key: "{{ lookup('ansible.builtin.env', 'OCP_API_TOKEN' }}"
+  - host: ocp_host
+    api_key: ocp_api_token
     verify_ssl: false
 
