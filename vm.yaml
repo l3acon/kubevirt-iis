@@ -1,152 +1,26 @@
-apiVersion: 'kubevirt.io/v1'
-kind: 'VirtualMachine'
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
 metadata:
+  name: my-test-vm
+  annotations:
+    description: some kind of vm
   labels:
-    app: 'test01'
-    vm.kubevirt.io/template: 'windows2k19-server-medium'
-    vm.kubevirt.io/template.namespace: 'openshift'
-    vm.kubevirt.io/template.revision: '1'
-    vm.kubevirt.io/template.version: 'v0.25.0'
-  managedFields:
-    - apiVersion: 'kubevirt.io/v1'
-      fieldsType: 'FieldsV1'
-      fieldsV1:
-        f:metadata:
-          f:annotations:
-            .: {}
-            f:vm.kubevirt.io/validations: {}
-          f:labels:
-            .: {}
-            f:app: {}
-            f:vm.kubevirt.io/template: {}
-            f:vm.kubevirt.io/template.namespace: {}
-            f:vm.kubevirt.io/template.revision: {}
-            f:vm.kubevirt.io/template.version: {}
-        f:spec:
-          .: {}
-          f:dataVolumeTemplates: {}
-          f:running: {}
-          f:template:
-            .: {}
-            f:metadata:
-              .: {}
-              f:annotations:
-                .: {}
-                f:vm.kubevirt.io/flavor: {}
-                f:vm.kubevirt.io/os: {}
-                f:vm.kubevirt.io/workload: {}
-              f:labels:
-                .: {}
-                f:kubevirt.io/domain: {}
-                f:kubevirt.io/size: {}
-            f:spec:
-              .: {}
-              f:domain:
-                .: {}
-                f:clock:
-                  .: {}
-                  f:timer:
-                    .: {}
-                    f:hpet:
-                      .: {}
-                      f:present: {}
-                    f:hyperv: {}
-                    f:pit:
-                      .: {}
-                      f:tickPolicy: {}
-                    f:rtc:
-                      .: {}
-                      f:tickPolicy: {}
-                  f:utc: {}
-                f:cpu:
-                  .: {}
-                  f:cores: {}
-                  f:sockets: {}
-                  f:threads: {}
-                f:devices:
-                  .: {}
-                  f:disks: {}
-                  f:inputs: {}
-                  f:interfaces: {}
-                f:features:
-                  .: {}
-                  f:acpi: {}
-                  f:apic: {}
-                  f:hyperv:
-                    .: {}
-                    f:frequencies: {}
-                    f:ipi: {}
-                    f:reenlightenment: {}
-                    f:relaxed: {}
-                    f:reset: {}
-                    f:runtime: {}
-                    f:spinlocks:
-                      .: {}
-                      f:spinlocks: {}
-                    f:synic: {}
-                    f:synictimer:
-                      .: {}
-                      f:direct: {}
-                    f:tlbflush: {}
-                    f:vapic: {}
-                    f:vpindex: {}
-                f:machine:
-                  .: {}
-                  f:type: {}
-                f:resources:
-                  .: {}
-                  f:requests:
-                    .: {}
-                    f:memory: {}
-              f:evictionStrategy: {}
-              f:networks: {}
-              f:terminationGracePeriodSeconds: {}
-              f:volumes: {}
-      manager: 'kubectl-create'
-      operation: 'Update'
-      time: '2023-10-09T16:45:29Z'
-  name: 'test01'
-  namespace: 'kubevirt-project'
-  uid: '1dc143f2-19f5-4d52-b32e-e948a389a5c1'
+    app: my-test-vm
+    os.template.kubevirt.io/fedora36: 'true'
+  namespace: kubevirt-project
 spec:
-  dataVolumeTemplates:
-    - apiVersion: 'cdi.kubevirt.io/v1beta1'
-      kind: 'DataVolume'
-      metadata:
-        creationTimestamp: null
-        name: 'test01'
-      spec:
-        source:
-          pvc:
-            name: 'windows-pvc'
-            namespace: 'kubevirt-project'
-        storage:
-          resources:
-            requests:
-              storage: '25Gi'
-  running: false
+  running: true
   template:
     metadata:
       annotations:
-        vm.kubevirt.io/flavor: 'medium'
-        vm.kubevirt.io/os: 'windows2k19'
-        vm.kubevirt.io/workload: 'server'
-      creationTimestamp: null
+        vm.kubevirt.io/flavor: small
+        vm.kubevirt.io/os: fedora36
+        vm.kubevirt.io/workload: server
       labels:
-        kubevirt.io/domain: 'test01'
-        kubevirt.io/size: 'medium'
+        kubevirt.io/domain: my-test-vm
+        kubevirt.io/size: small
     spec:
       domain:
-        clock:
-          timer:
-            hpet:
-              present: false
-            hyperv: {}
-            pit:
-              tickPolicy: 'delay'
-            rtc:
-              tickPolicy: 'catchup'
-          utc: {}
         cpu:
           cores: 1
           sockets: 1
@@ -154,53 +28,43 @@ spec:
         devices:
           disks:
             - disk:
-                bus: 'sata'
-              name: 'rootdisk'
-            - cdrom:
-                bus: 'sata'
-              name: 'windows-drivers-disk'
-          inputs:
-            - bus: 'usb'
-              name: 'tablet'
-              type: 'tablet'
+                bus: virtio
+              name: rootdisk
+            - disk:
+                bus: virtio
+              name: cloudinitdisk
           interfaces:
-            - macAddress: '02:1a:6f:00:00:04'
-              masquerade: {}
-              model: 'e1000e'
-              name: 'default'
+            - masquerade: {}
+              model: virtio
+              name: default
+          networkInterfaceMultiqueue: true
+          rng: {}
         features:
           acpi: {}
-          apic: {}
-          hyperv:
-            frequencies: {}
-            ipi: {}
-            reenlightenment: {}
-            relaxed: {}
-            reset: {}
-            runtime: {}
-            spinlocks:
-              spinlocks: 8191
-            synic: {}
-            synictimer:
-              direct: {}
-            tlbflush: {}
-            vapic: {}
-            vpindex: {}
+          smm:
+            enabled: true
+        firmware:
+          bootloader:
+            efi: {}
         machine:
-          type: 'pc-q35-rhel9.2.0'
+          type: q35
         resources:
           requests:
-            memory: '4Gi'
-      evictionStrategy: 'LiveMigrate'
+            memory: 2Gi
+      hostname: my-test-vm
       networks:
-        - name: 'default'
+        - name: default
           pod: {}
-      terminationGracePeriodSeconds: 3600
+      terminationGracePeriodSeconds: 180
       volumes:
-        - dataVolume:
-            name: 'test01'
-          name: 'rootdisk'
-        - containerDisk:
-            image: 'registry.redhat.io/container-native-virtualization/virtio-win-rhel9@sha256:831e21c2a34a4f651f9c5d3c3b0efda59853a1c060db0744da720786c14c64d6'
-          name: 'windows-drivers-disk'
+        - name: rootdisk
+          containerDisk:
+            image: 'quay.io/containerdisks/fedora:36'
+        - cloudInitNoCloud:
+            userData: |-
+              #cloud-config
+              user: fedora
+              password: fedora
+              chpasswd: { expire: False }
+          name: cloudinitdisk
 
