@@ -1,7 +1,77 @@
 - name: deploy a windows 2019 server in openshift 
   hosts: localhost
   tasks:
-    - name: Create a Deployment by reading the definition from a local file
+    - name: Create a VM
       redhat.openshift.k8s:
         state: present
-        src: ./vm.yaml
+        definition:
+          apiVersion: kubevirt.io/v1
+          kind: VirtualMachine
+          metadata:
+            name: my-test-vm
+            annotations:
+              description: some kind of vm
+            labels:
+              app: my-test-vm
+              os.template.kubevirt.io/fedora36: 'true'
+            namespace: kubevirt-project
+          spec:
+            running: true
+            template:
+              metadata:
+                annotations:
+                  vm.kubevirt.io/flavor: small
+                  vm.kubevirt.io/os: fedora36
+                  vm.kubevirt.io/workload: server
+                labels:
+                  kubevirt.io/domain: my-test-vm
+                  kubevirt.io/size: small
+              spec:
+                domain:
+                  cpu:
+                    cores: 1
+                    sockets: 1
+                    threads: 1
+                  devices:
+                    disks:
+                      - disk:
+                          bus: virtio
+                        name: rootdisk
+                      - disk:
+                          bus: virtio
+                        name: cloudinitdisk
+                    interfaces:
+                      - masquerade: {}
+                        model: virtio
+                        name: default
+                    networkInterfaceMultiqueue: true
+                    rng: {}
+                  features:
+                    acpi: {}
+                    smm:
+                      enabled: true
+                  firmware:
+                    bootloader:
+                      efi: {}
+                  machine:
+                    type: q35
+                  resources:
+                    requests:
+                      memory: 2Gi
+                hostname: my-test-vm
+                networks:
+                  - name: default
+                    pod: {}
+                terminationGracePeriodSeconds: 180
+                volumes:
+                  - name: rootdisk
+                    containerDisk:
+                      image: 'quay.io/containerdisks/fedora:36'
+                  - cloudInitNoCloud:
+                      userData: |-
+                        #cloud-config
+                        user: fedora
+                        password: fedora
+                        chpasswd: { expire: False }
+                    name: cloudinitdisk
+          
