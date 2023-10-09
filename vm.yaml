@@ -20,7 +20,7 @@ spec:
         kubevirt.io/domain: my-test-vm
         kubevirt.io/size: small
     spec:
-      domain:
+      domain: "apps.r2jvf.dynamic.opentlc.com"
         cpu:
           cores: 1
           sockets: 1
