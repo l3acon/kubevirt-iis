@@ -4,4 +4,4 @@
     - name: Create a Deployment by reading the definition from a local file
       redhat.openshift.k8s:
         state: present
-        src: ./jh.yaml
+        src: ./vm.yaml

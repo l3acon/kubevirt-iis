@@ -1,13 +1,8 @@
 apiVersion: 'kubevirt.io/v1'
 kind: 'VirtualMachine'
 metadata:
-  annotations:
-    kubemacpool.io/transaction-timestamp: '2023-10-09T16:45:29.901720133Z'
-    vm.kubevirt.io/validations: "[\n  {\n    \"name\": \"minimal-required-memory\",\n    \"path\": \"jsonpath::.spec.domain.resources.requests.memory\",\n    \"rule\": \"integer\",\n    \"message\": \"This VM requires more memory.\",\n    \"min\": 536870912\n  }, {\n    \"name\": \"windows-virtio-bus\",\n    \"path\": \"jsonpath::.spec.domain.devices.disks[*].disk.bus\",\n    \"valid\": \"jsonpath::.spec.domain.devices.disks[*].disk.bus\",\n    \"rule\": \"enum\",\n    \"message\": \"virtio disk bus type has better performance, install virtio drivers in VM and change bus type\",\n    \"values\": [\"virtio\"],\n    \"justWarning\": true\n  }, {\n    \"name\": \"windows-disk-bus\",\n    \"path\": \"jsonpath::.spec.domain.devices.disks[*].disk.bus\",\n    \"valid\": \"jsonpath::.spec.domain.devices.disks[*].disk.bus\",\n    \"rule\": \"enum\",\n    \"message\": \"disk bus has to be either virtio or sata or scsi\",\n    \"values\": [\"virtio\", \"sata\", \"scsi\"]\n  }, {\n    \"name\": \"windows-cd-bus\",\n    \"path\": \"jsonpath::.spec.domain.devices.disks[*].cdrom.bus\",\n    \"valid\": \"jsonpath::.spec.domain.devices.disks[*].cdrom.bus\",\n    \"rule\": \"enum\",\n    \"message\": \"cd bus has to be sata\",\n    \"values\": [\"sata\"]\n  }\n]\n"
-  creationTimestamp: '2023-10-09T16:45:29Z'
-  generation: 1
   labels:
-    app: 'win2k19-iis'
+    app: 'test01'
     vm.kubevirt.io/template: 'windows2k19-server-medium'
     vm.kubevirt.io/template.namespace: 'openshift'
     vm.kubevirt.io/template.revision: '1'
@@ -110,7 +105,7 @@ metadata:
       manager: 'kubectl-create'
       operation: 'Update'
       time: '2023-10-09T16:45:29Z'
-  name: 'win2k19-iis'
+  name: 'test01'
   namespace: 'kubevirt-project'
   uid: '1dc143f2-19f5-4d52-b32e-e948a389a5c1'
 spec:
@@ -119,7 +114,7 @@ spec:
       kind: 'DataVolume'
       metadata:
         creationTimestamp: null
-        name: 'win2k19-iis'
+        name: 'test01'
       spec:
         source:
           pvc:
@@ -138,7 +133,7 @@ spec:
         vm.kubevirt.io/workload: 'server'
       creationTimestamp: null
       labels:
-        kubevirt.io/domain: 'win2k19-iis'
+        kubevirt.io/domain: 'test01'
         kubevirt.io/size: 'medium'
     spec:
       domain:
@@ -203,7 +198,7 @@ spec:
       terminationGracePeriodSeconds: 3600
       volumes:
         - dataVolume:
-            name: 'win2k19-iis'
+            name: 'test01'
           name: 'rootdisk'
         - containerDisk:
             image: 'registry.redhat.io/container-native-virtualization/virtio-win-rhel9@sha256:831e21c2a34a4f651f9c5d3c3b0efda59853a1c060db0744da720786c14c64d6'
