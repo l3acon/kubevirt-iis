@@ -3,7 +3,7 @@
 # Authenticate with token, and return all pods and services for all namespaces
 plugin: redhat.openshift.openshift
 connections:
-  - host: {{ ocp_host }}
-    api_key: {{ ocp_api_token }}
+  - host: "{{ ocp_host }}"
+    api_key: "{{ ocp_api_token }}"
     verify_ssl: false
 
