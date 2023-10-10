@@ -99,4 +99,22 @@
               protocol: TCP
               port: 22
               targetPort: 22
-          
+
+    - name: add service for ssh
+      redhat.openshift.k8s:
+        definition:
+          apiVersion: route.openshift.io/v1
+          kind: Route
+          metadata:
+            name: supertestvm-route
+          spec:
+            port:
+              targetPort: ssh
+            tls:
+              termination: edge
+              insecureEdgeTerminationPolicy: Redirect
+            to:
+              kind: Service
+              name: supertestvm
+              weight: 100
+            wildcardPolicy: None

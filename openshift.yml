@@ -3,8 +3,8 @@
 
 # Authenticate with token, and return all pods and services for all namespaces
 plugin: redhat.openshift.openshift
-#groups:
-# test: "'test' in labels.app"
+compose:
+  ansible_host: pod_ip
 connections:
   - namespaces:
     - 'kubevirt-project'
