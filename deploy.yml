@@ -72,6 +72,8 @@
                         #cloud-config
                         user: fedora
                         password: fedora
+                        ssh-authorized-keys:
+                          ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDjymj3M1LmAEUcw2v7e6muiyclnWDbjY53jBR/9L2L2 matt@bb41.lab.cheeseburgia.com
                         chpasswd: { expire: False }
                     name: cloudinitdisk
           
