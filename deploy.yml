@@ -87,7 +87,7 @@
               app: my-test-vm
           spec:
             selector:
-              app: winweb
+              app: my-test-vm
             type: ClusterIP
             ports:
             - name: http
