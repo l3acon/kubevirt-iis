@@ -70,11 +70,8 @@
                   - cloudInitNoCloud:
                       userData: |-
                         #cloud-config
-                        users:
-                          - name: fedora
-                            ssh-authorized-keys:
-                              - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDjymj3M1LmAEUcw2v7e6muiyclnWDbjY53jBR/9L2L2 matt@bb41.lab.cheeseburgia.com
-                            password: $6$rounds=4096$oBUzOjXpmUGra.jg$j0r.noK7QxWSw7BJrzRUnWp1P9Zd58OWyVuHNLIX23ifqpq5Ch8Pa08JBJgEDu2Q5EFhUB6NSOLkG1TITecE61
+                        user: fedora
+                        password: thisisapassword
                     name: cloudinitdisk
           
     - name: add service for http
