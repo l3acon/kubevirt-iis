@@ -8,11 +8,11 @@
           apiVersion: kubevirt.io/v1
           kind: VirtualMachine
           metadata:
-            name: my-test-vm
+            name: supertestvm
             annotations:
               description: some kind of vm
             labels:
-              app: my-test-vm
+              app: supertestvm
               os.template.kubevirt.io/fedora36: 'true'
             namespace: kubevirt-project
           spec:
@@ -24,7 +24,7 @@
                   vm.kubevirt.io/os: fedora36
                   vm.kubevirt.io/workload: server
                 labels:
-                  kubevirt.io/domain: my-test-vm
+                  kubevirt.io/domain: supertestvm
                   kubevirt.io/size: small
               spec:
                 domain:
@@ -58,7 +58,7 @@
                   resources:
                     requests:
                       memory: 2Gi
-                hostname: my-test-vm
+                hostname: supertestvm
                 networks:
                   - name: default
                     pod: {}
@@ -82,12 +82,12 @@
           kind: Service
           metadata:
             namespace: kubevirt-project
-            name: my-test-vm-service
+            name: supertestvm-service
             labels:
-              app: my-test-vm
+              app: supertestvm
           spec:
             selector:
-              app: my-test-vm
+              app: supertestvm
             type: ClusterIP
             ports:
             - name: http
