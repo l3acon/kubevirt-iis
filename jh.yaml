@@ -261,23 +261,24 @@
                     name: winweb02
                   name: rootdisk
           
-              - name: mysql service
-                redhat.openshift.k8s:
-                  state: present
-                  definition:
-                    apiVersion: v1
-                    kind: Service
-                    metadata:
-                      name: database
-                    spec:
-                      selector:
-                        app: database
-                      type: ClusterIP
-                      ports:
-                      - name: mysql
-                        protocol: TCP
-                        port: 3306
-                        targetPort: 3306
+
+    - name: mysql service
+      redhat.openshift.k8s:
+        state: present
+        definition:
+          apiVersion: v1
+          kind: Service
+          metadata:
+            name: database
+          spec:
+            selector:
+              app: database
+            type: ClusterIP
+            ports:
+            - name: mysql
+              protocol: TCP
+              port: 3306
+              targetPort: 3306
 
     - name: http service
       redhat.openshift.k8s:
