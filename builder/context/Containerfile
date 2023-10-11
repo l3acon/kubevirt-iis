@@ -1,10 +1,9 @@
-ARG EE_BASE_IMAGE="localhost/testr:latest"
+ARG EE_BASE_IMAGE="registry.redhat.io/ansible-automation-platform-24/ee-minimal-rhel8:latest"
 ARG PYCMD="/usr/bin/python3"
 ARG PKGMGR_PRESERVE_CACHE=""
-ARG ANSIBLE_GALAXY_CLI_COLLECTION_OPTS="--pre"
+ARG ANSIBLE_GALAXY_CLI_COLLECTION_OPTS=""
 ARG ANSIBLE_GALAXY_CLI_ROLE_OPTS=""
-ARG ANSIBLE_INSTALL_REFS="ansible-core ansible-runner"
-ARG PKGMGR="/usr/bin/dnf"
+ARG PKGMGR="/usr/bin/microdnf"
 
 # Base build stage
 FROM $EE_BASE_IMAGE as base
@@ -14,12 +13,9 @@ ARG PYCMD
 ARG PKGMGR_PRESERVE_CACHE
 ARG ANSIBLE_GALAXY_CLI_COLLECTION_OPTS
 ARG ANSIBLE_GALAXY_CLI_ROLE_OPTS
-ARG ANSIBLE_INSTALL_REFS
 ARG PKGMGR
 
-RUN dnf install python36 python3-pip -y && pip3 install setuptools-rust importlib-metadata && pip3  install --upgrade pip
 RUN $PYCMD -m ensurepip
-RUN $PYCMD -m pip install --no-cache-dir $ANSIBLE_INSTALL_REFS
 COPY _build/scripts/ /output/scripts/
 COPY _build/scripts/entrypoint /opt/builder/bin/entrypoint
 
@@ -30,7 +26,6 @@ ARG PYCMD
 ARG PKGMGR_PRESERVE_CACHE
 ARG ANSIBLE_GALAXY_CLI_COLLECTION_OPTS
 ARG ANSIBLE_GALAXY_CLI_ROLE_OPTS
-ARG ANSIBLE_INSTALL_REFS
 ARG PKGMGR
 
 RUN /output/scripts/check_galaxy
@@ -48,7 +43,6 @@ ARG PYCMD
 ARG PKGMGR_PRESERVE_CACHE
 ARG ANSIBLE_GALAXY_CLI_COLLECTION_OPTS
 ARG ANSIBLE_GALAXY_CLI_ROLE_OPTS
-ARG ANSIBLE_INSTALL_REFS
 ARG PKGMGR
 
 RUN $PYCMD -m pip install --no-cache-dir bindep pyyaml requirements-parser
@@ -67,11 +61,8 @@ ARG PYCMD
 ARG PKGMGR_PRESERVE_CACHE
 ARG ANSIBLE_GALAXY_CLI_COLLECTION_OPTS
 ARG ANSIBLE_GALAXY_CLI_ROLE_OPTS
-ARG ANSIBLE_INSTALL_REFS
 ARG PKGMGR
 
-RUN whoami
-RUN cat /etc/os-release
 RUN /output/scripts/check_ansible $PYCMD
 
 COPY --from=galaxy /usr/share/ansible /usr/share/ansible
@@ -82,8 +73,6 @@ RUN chmod ug+rw /etc/passwd
 RUN mkdir -p /runner && chgrp 0 /runner && chmod -R ug+rwx /runner
 WORKDIR /runner
 RUN $PYCMD -m pip install --no-cache-dir 'dumb-init==1.2.5'
-RUN echo This is a post-install command!
-RUN ls -la /etc
 RUN rm -rf /output
 LABEL ansible-execution-environment=true
 USER 1000

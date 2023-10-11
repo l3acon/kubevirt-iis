@@ -5,8 +5,7 @@ import sys
 import yaml
 
 import requirements
-from importlib_metadata import metadata
-
+import importlib.metadata
 
 base_collections_path = '/usr/share/ansible/collections'
 default_file = 'execution-environment.yml'

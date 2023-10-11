@@ -1,5 +1,2 @@
----
 collections:
-  # Install a collection from Ansible Galaxy.
-  - name: kubevirt.core
-
+- kubernetes.core
