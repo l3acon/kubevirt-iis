@@ -3,7 +3,7 @@
 - name: deploy James's web stack
   hosts: localhost
   tasks:
-    - name: Create a VM
+    - name: Define resources
       redhat.openshift.k8s:
         state: present
-        src: ./from-jharm/kustomization.yaml
+        definition: "{{ lookup('redhat.openshift.kustomize', dir='./from-jharm/') }}"
