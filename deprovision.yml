@@ -1,0 +1,54 @@
+---
+
+- name: Destroy assets in the web stack
+  hosts: localhost
+  tasks:
+
+    - name: http service
+      redhat.openshift.k8s:
+        state: absent
+        definition:
+        kind: Route
+        namespace: kubevirt-project
+        name: php-webapp
+
+    - name: http service
+      redhat.openshift.k8s:
+        state: absent
+        kind: Service
+        namespace: kubevirt-project
+        name: http
+
+
+    - name: mysql service
+      redhat.openshift.k8s:
+        state: absent
+        kind: Service
+        namespace: kubevirt-project
+        name: mysql
+
+    - name: winweb02
+      redhat.openshift.k8s:
+        state: absent
+        definition:
+        kind: VirtualMachine
+        namespace: kubevirt-project
+        name: winweb02
+
+
+    - name: winweb
+      redhat.openshift.k8s:
+        state: absent
+        kind: VirtualMachine
+        namespace: kubevirt-project
+        name: winweb01
+
+
+    - name: database
+      redhat.openshift.k8s:
+        state: absent
+        kind: VirtualMachine
+        namespace: kubevirt-project
+        name: database
+
+
