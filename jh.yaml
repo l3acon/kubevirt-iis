@@ -3,70 +3,70 @@
 - name: deploy James's web stack
   hosts: localhost
   tasks:
-#    - name: Define resources
-#      redhat.openshift.k8s:
-#        state: present
-#        definition: "{{ lookup('redhat.openshift.kustomize', dir='./from-jharm/') }}"
+    - name: Define resources
+      redhat.openshift.k8s:
+        state: present
+        definition: "{{ lookup('redhat.openshift.kustomize', dir='./from-jharm/') }}"
 
-#    - name: database
-#      redhat.openshift.k8s:
-#        state: present
-#        definition:
-#          apiVersion: kubevirt.io/v1
-#          kind: VirtualMachine
-#          metadata:
-#            namespace: kubevirt-project
-#            labels:
-#              app: database
-#            name: database
-#          spec:
-#            running: true
-#            dataVolumeTemplates:
-#            - apiVersion: cdi.kubevirt.io/v1beta1
-#              kind: DataVolume
-#              metadata:
-#                creationTimestamp: null
-#                name: database
-#              spec:
-#                source:
-#                  http:
-#                    url: https://s3.us-east.cloud-object-storage.appdomain.cloud/roadshowocpvirt/database.qcow2
-#                storage:
-#                  resources:
-#                    requests:
-#                      storage: 16Gi
-#                  volumeMode: Block
-#            template:
-#              metadata:
-#                labels:
-#                  app: database
-#                  kubevirt.io/domain: database
-#              spec:
-#                domain:
-#                  cpu:
-#                    cores: 1
-#                    sockets: 2
-#                    threads: 1
-#                  devices:
-#                    disks:
-#                    - disk:
-#                        bus: virtio
-#                      name: rootdisk
-#                    interfaces:
-#                    - masquerade: {}
-#                      name: default
-#                  resources:
-#                    requests:
-#                      memory: 8Gi
-#                evictionStrategy: LiveMigrate
-#                networks:
-#                - name: default
-#                  pod: {}
-#                volumes:
-#                - dataVolume:
-#                    name: database
-#                  name: rootdisk
-#
+    - name: database
+      redhat.openshift.k8s:
+        state: present
+        definition:
+          apiVersion: kubevirt.io/v1
+          kind: VirtualMachine
+          metadata:
+            namespace: kubevirt-project
+            labels:
+              app: database
+            name: database
+          spec:
+            running: true
+            dataVolumeTemplates:
+            - apiVersion: cdi.kubevirt.io/v1beta1
+              kind: DataVolume
+              metadata:
+                creationTimestamp: null
+                name: database
+              spec:
+                source:
+                  http:
+                    url: https://s3.us-east.cloud-object-storage.appdomain.cloud/roadshowocpvirt/database.qcow2
+                storage:
+                  resources:
+                    requests:
+                      storage: 16Gi
+                  volumeMode: Block
+            template:
+              metadata:
+                labels:
+                  app: database
+                  kubevirt.io/domain: database
+              spec:
+                domain:
+                  cpu:
+                    cores: 1
+                    sockets: 2
+                    threads: 1
+                  devices:
+                    disks:
+                    - disk:
+                        bus: virtio
+                      name: rootdisk
+                    interfaces:
+                    - masquerade: {}
+                      name: default
+                  resources:
+                    requests:
+                      memory: 8Gi
+                evictionStrategy: LiveMigrate
+                networks:
+                - name: default
+                  pod: {}
+                volumes:
+                - dataVolume:
+                    name: database
+                  name: rootdisk
+
     - name: winweb
       redhat.openshift.k8s:
         state: present
