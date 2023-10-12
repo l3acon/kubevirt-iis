@@ -1,0 +1,9 @@
+---
+
+- name: deploy James's web stack
+  hosts: localhost
+  tasks:
+    - name: Define resources
+      redhat.openshift.k8s:
+        state: present
+        definition: "{{ lookup('redhat.openshift.kustomize', dir='./from-jharm/') }}"
