@@ -15,7 +15,6 @@ ARG ANSIBLE_GALAXY_CLI_COLLECTION_OPTS
 ARG ANSIBLE_GALAXY_CLI_ROLE_OPTS
 ARG PKGMGR
 
-RUN microdnf install -y --enablerepo=rhocp-4.10-for-rhel-8-x86_64-rpms --releasever=8.6 openshift-clients
 RUN $PYCMD -m ensurepip
 COPY _build/scripts/ /output/scripts/
 COPY _build/scripts/entrypoint /opt/builder/bin/entrypoint
