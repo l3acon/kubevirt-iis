@@ -4,6 +4,6 @@
   hosts: localhost
   tasks:
     - name: Define resources
-      redhat.openshift.k8s:
+      kubernetes.core.kustomize:
         state: present
         definition: "{{ lookup('redhat.openshift.kustomize', dir='./from-jharm/') }}"
