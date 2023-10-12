@@ -135,7 +135,7 @@ spec:
             type: tablet
         resources:
           requests:
-            memory: 16Gi
+            memory: 8Gi
       evictionStrategy: LiveMigrate
       networks:
       - name: default
@@ -227,7 +227,7 @@ spec:
             type: tablet
         resources:
           requests:
-            memory: 16Gi
+            memory: 8Gi
       evictionStrategy: LiveMigrate
       networks:
       - name: default
