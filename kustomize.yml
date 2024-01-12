@@ -5,5 +5,6 @@
   tasks:
     - name: Define resources
       kubernetes.core.k8s:
-        state: present
+        wait: true
+        state: "{{ infra_state | default('present') }}"
         definition: "{{ lookup('kubernetes.core.kustomize', dir='./from-jharm/') }}"

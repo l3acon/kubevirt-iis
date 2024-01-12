@@ -9,5 +9,5 @@ plugin: redhat.openshift.openshift
   #  ansible_host: pod_ip
 connections:
   - namespaces:
-    - 'kubevirt-project'
+    - 'matts-test-project'
 
