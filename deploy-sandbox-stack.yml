@@ -1,0 +1,9 @@
+---
+- name: deploy some sandbox VM
+  hosts: localhost
+  tasks:
+    - name: Define resources
+      kubernetes.core.k8s:
+        wait: true
+        state: "{{ infra_state | default('present') }}"
+        definition: "{{ lookup('kubernetes.core.kustomize', dir='./sandbox-vm/') }}"

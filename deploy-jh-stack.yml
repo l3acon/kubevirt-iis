@@ -7,4 +7,4 @@
       kubernetes.core.k8s:
         wait: true
         state: "{{ infra_state | default('present') }}"
-        definition: "{{ lookup('kubernetes.core.kustomize', dir='./from-jharm/') }}"
+        definition: "{{ lookup('kubernetes.core.kustomize', dir='./jh-stack/') }}"

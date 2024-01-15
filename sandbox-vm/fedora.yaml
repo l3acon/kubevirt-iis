@@ -1,11 +1,11 @@
 apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
-  name: my-test-vm
+  name: some-fedora-vm
   annotations:
     description: some kind of vm
   labels:
-    app: my-test-vm
+    app: some-fedora-vm
     os.template.kubevirt.io/fedora36: 'true'
   namespace: kubevirt-project
 spec:
@@ -17,10 +17,10 @@ spec:
         vm.kubevirt.io/os: fedora36
         vm.kubevirt.io/workload: server
       labels:
-        kubevirt.io/domain: my-test-vm
+        kubevirt.io/domain: some-fedora-vm
         kubevirt.io/size: small
     spec:
-      domain: "apps.r2jvf.dynamic.opentlc.com"
+      domain:
         cpu:
           cores: 1
           sockets: 1
@@ -51,7 +51,7 @@ spec:
         resources:
           requests:
             memory: 2Gi
-      hostname: my-test-vm
+      hostname: some-fedora-vm
       networks:
         - name: default
           pod: {}
