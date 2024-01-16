@@ -7,6 +7,7 @@ metadata:
   labels:
     app: some-fedora-vm
     os.template.kubevirt.io/fedora36: 'true'
+    vm.kubevirt.io/name: some-fedora-vm
   namespace: kubevirt-project
 spec:
   running: true
@@ -60,11 +61,27 @@ spec:
         - name: rootdisk
           containerDisk:
             image: 'quay.io/containerdisks/fedora:36'
-        - cloudInitNoCloud:
+        - cloudInitConfigDrive:
             userData: |-
               #cloud-config
               user: fedora
-              password: fedora
+              password: "{{ lookup('env', 'FEDORA_USER_PASSWORD') }}"
               chpasswd: { expire: False }
           name: cloudinitdisk
-
+      accessCredentials:
+        - sshPublicKey:
+            propagationMethod:
+              configDrive: {}
+            source:
+              secret:
+                secretName: authorized-keys
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: authorized-keys
+data:
+  # this is a base64-encoded ssh public key
+  key: |
+    c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUliYXk0d2dCZEJvRnZHMFNIbHIw
+    ODlEZndtbXRGZk8vZXZLaHdEdlpaMmcgbWF0dEBiYjQxLmxhYi5jaGVlc2VidXJnaWEuY29tCg==

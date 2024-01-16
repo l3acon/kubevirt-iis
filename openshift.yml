@@ -3,11 +3,14 @@
 
 # Authenticate with token, and return all pods and services for all namespaces
 plugin: redhat.openshift.openshift
-  hostname:
-    - labels:'vm.kkubevirt.io/name'
-  compose:
-    ansible_host: pod_ip
+filters:
+  labels:
+    - vm.kubevirt.io/name
+compose:
+  ansible_host: vm.kubevirt.io/name
+hostname:
+  - labels:'vm.kubevirt.io/name'
+ansible_ssh_extra_vars: "ProxyCommand=virtctl port-forward --stdio=true matts-test-project 22'"
 connections:
   - namespaces:
     - 'matts-test-project'
-
