@@ -8,9 +8,10 @@ filters:
     - vm.kubevirt.io/name
 compose:
   ansible_host: vm.kubevirt.io/name
+  ansible_ssh_extra_vars: "'ProxyCommand=virtctl port-forward --stdio=true matts-test-project 22'"
+  test_var: "'this is a test'"
 hostname:
   - labels:'vm.kubevirt.io/name'
-ansible_ssh_extra_vars: "ProxyCommand=virtctl port-forward --stdio=true matts-test-project 22'"
 connections:
   - namespaces:
     - 'matts-test-project'

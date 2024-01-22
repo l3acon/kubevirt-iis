@@ -7,3 +7,8 @@
         wait: true
         state: "{{ infra_state | default('present') }}"
         definition: "{{ lookup('kubernetes.core.kustomize', dir='./sandbox-vm/') }}"
+      register: resource_out
+
+    - name: Define resources
+      debug:
+        msg: "{{ resource_out }}"
